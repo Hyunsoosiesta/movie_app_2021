@@ -1,56 +1,29 @@
 import React from "react";
-import axios from "axios";
-import Movie from "./Movie"
-import "./App.css";
+import { HashRouter, Route } from "react-router-dom";
+// BrowserRouter도 가능한데, github page에서 관리하기가 힘듦
+import Home from "./routes/Home";
+import About from "./routes/About";
+import Detail from "./routes/Detail";
+// import {About as Potato} from "./routes/About" 이라고 하면 Route의  component={Potato}라고 적을 수 있다.
+import Navigation from "./components/Navigation"
 
-// 컴포넌트 return 안의 html tag사이에 그냥 쓰면 text, {}안에 적으면 자바스크립트
-// key값은 리액트 내부에서 요소를 나누기 위해 사용됨
 
-class App extends React.Component {
-  state = {
-    isLoading: true,
-    movies: []
-  };
+// path로 가면 component로 이동함
+// path="/"가 보이면 /먼저 확인하고 + "/about"을 확인해서 두 내용이 겹칠 수 있다.
+// 그래서 exact={true}를 쓰면 this page (no including any other pages)를 내포함
 
-  getMovie = async () => {
-    const { data: { data: { movies } } } = await axios.get("https://yts-proxy.now.sh/list_movies.json?sort_by=rating");
-    this.setState({ movies: movies, isLoading: false })
-    console.log(movies)
-  }
-  componentDidMount() {
-    this.getMovie();
-  }
+// BrowserRouter도 쓸 수 있지만, github page에서 관리 힘듦
 
-  render() {
-    const { isLoading, movies } = this.state;
-    return (
-      <section className="container">
-        {isLoading ? (
-          <div className="loader">
-            <span className="loader__text">Loading...</span>
-          </div>
-        ) : (
-            <div className="movie">
-              {movies.map(movie => (
-                < Movie
-                  key={movie.id}
-                  id={movie.id}
-                  year={movie.year}
-                  title={movie.title}
-                  summary={movie.summary}
-                  poster={movie.medium_cover_image}
-                  genres={movie.genres}
-                />
-              ))}
-            </div>
-          )
-        }
-      </section>
-    )
-  }
+function App() {
+  return (
+    <HashRouter>
+      <Navigation />
+      <Route path="/" exact={true} component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/movie-detail" component={Detail} />
+
+    </HashRouter>
+  )
 }
 
-
-
 export default App;
-

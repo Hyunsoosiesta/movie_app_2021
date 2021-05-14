@@ -1,12 +1,12 @@
 import React from "react";
 import axios from "axios";
-import Movie from "./Movie"
-import "./App.css";
+import Movie from "../components/Movie"
+import "./Home.css";
 
 // 컴포넌트 return 안의 html tag사이에 그냥 쓰면 text, {}안에 적으면 자바스크립트
 // key값은 리액트 내부에서 요소를 나누기 위해 사용됨
 
-class App extends React.Component {
+class Home extends React.Component {
     state = {
         isLoading: true,
         movies: []
@@ -52,5 +52,5 @@ class App extends React.Component {
 
 
 
-export default App;
+export default Home;
 
